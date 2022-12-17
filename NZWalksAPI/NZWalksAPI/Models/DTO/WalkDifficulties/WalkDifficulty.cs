@@ -1,0 +1,8 @@
+﻿namespace NZWalksAPI.Models.DTO.WalkDifficulties
+{
+    public class WalkDifficulty
+    {
+        public Guid Id { get; set; }
+        public string Code { get; set; }
+    }
+}

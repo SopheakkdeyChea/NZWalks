@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using NZWalksAPI.Models.DTO;
+using NZWalksAPI.Models.DTO.Regions;
 using NZWalksAPI.Repositories;
 
 namespace NZWalksAPI.Controllers
@@ -40,7 +40,7 @@ namespace NZWalksAPI.Controllers
             //});
             #endregion
             // (Option 2 with Automapper)
-            var regionsDTO = _mapper.Map<List<Models.DTO.Region>>(regions);
+            var regionsDTO = _mapper.Map<List<Region>>(regions);
 
             return Ok(regionsDTO); 
         }
@@ -57,7 +57,7 @@ namespace NZWalksAPI.Controllers
                 return NotFound();
             }
 
-            var regionDTO = _mapper.Map<Models.DTO.Region>(regions);
+            var regionDTO = _mapper.Map<Region>(regions);
             return Ok(regionDTO);
         }
 
@@ -65,7 +65,7 @@ namespace NZWalksAPI.Controllers
         [Route("AddRegion")]
         public async Task<IActionResult> AddRegionAsync(AddRegionRequest addRegionRequest)
         {
-            // Request(DTO) to Domain Domain Model
+            // Request(DTO) to Domain Model
             var region = new Models.Domain.Region()
             {
                 Code= addRegionRequest.Code,
@@ -80,7 +80,7 @@ namespace NZWalksAPI.Controllers
             region = await _regionRepository.AddAsync(region);
 
             // Covert back to DTO
-            var regionDTO = new Models.DTO.Region()
+            var regionDTO = new Models.DTO.Regions.Region()
             {
                 Id=region.Id,
                 Code = region.Code,
@@ -108,7 +108,7 @@ namespace NZWalksAPI.Controllers
             }
 
             //Convert response back to DTTO
-            var regionDTO = new Models.DTO.Region()
+            var regionDTO = new Models.DTO.Regions.Region()
             {
                 Id = region.Id,
                 Code = region.Code,
@@ -148,7 +148,7 @@ namespace NZWalksAPI.Controllers
             }
 
             // Convert Domain Back to DTO
-            var regionDTO = new Models.DTO.Region()
+            var regionDTO = new Models.DTO.Regions.Region()
             {
                 Id = region.Id,
                 Code = region.Code,

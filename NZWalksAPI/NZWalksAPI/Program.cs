@@ -19,6 +19,7 @@ builder.Services.AddDbContext<NZWalksDbContext>(options =>
 });
 // Adding repositories to direct to db
 builder.Services.AddScoped<IRegionRepository, RegionRepository>();
+builder.Services.AddScoped<IWalkRepository, WalkRepository>();
 
 //Adding Auto Mapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);

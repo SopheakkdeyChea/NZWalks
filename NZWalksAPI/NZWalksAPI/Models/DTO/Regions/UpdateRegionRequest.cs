@@ -1,4 +1,4 @@
-﻿namespace NZWalksAPI.Models.DTO
+﻿namespace NZWalksAPI.Models.DTO.Regions
 {
     public class UpdateRegionRequest
     {
