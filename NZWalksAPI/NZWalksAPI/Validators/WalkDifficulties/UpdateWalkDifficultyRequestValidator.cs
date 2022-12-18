@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using NZWalksAPI.Models.DTO.WalkDifficulties;
 
-namespace NZWalksAPI.Validators
+namespace NZWalksAPI.Validators.WalkDifficulties
 {
     public class UpdateWalkDifficultyRequestValidator : AbstractValidator<UpdateWalkDifficultyRequest>
     {

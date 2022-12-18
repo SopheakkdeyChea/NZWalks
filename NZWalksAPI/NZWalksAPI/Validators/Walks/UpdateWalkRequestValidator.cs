@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
 using NZWalksAPI.Models.DTO.Walks;
 
-namespace NZWalksAPI.Validators
+namespace NZWalksAPI.Validators.Walks
 {
-    public class AddWalkRequestValidator : AbstractValidator<AddWalkRequest>
+    public class UpdateWalkRequestValidator : AbstractValidator<UpdateWalkRequest>
     {
-        public AddWalkRequestValidator() 
-        { 
+        public UpdateWalkRequestValidator()
+        {
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Length).GreaterThan(0);
         }

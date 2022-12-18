@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using NZWalksAPI.Models.DTO.Regions;
 
-namespace NZWalksAPI.Validators
+namespace NZWalksAPI.Validators.Regions
 {
     public class AddRegionRequestValidator : AbstractValidator<AddRegionRequest>
     {
-        public AddRegionRequestValidator() 
+        public AddRegionRequestValidator()
         {
             RuleFor(x => x.Code).NotEmpty();
             RuleFor(x => x.Name).NotEmpty();
