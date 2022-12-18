@@ -71,12 +71,13 @@ namespace NZWalksAPI.Controllers
         [Route("AddRegionAsync")]
         public async Task<IActionResult> AddRegionAsync(AddRegionRequest addRegionRequest)
         {
-            var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
-            // Validate The Request
-            if (!validate.ValidateAddRegionAsync(addRegionRequest))
-            {
-                return BadRequest(validate.ModelState);
-            }
+            // Option Validation 1 or Using Fluent Validator
+            //var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
+            //// Validate The Request
+            //if (!validate.ValidateAddRegionAsync(addRegionRequest))
+            //{
+            //    return BadRequest(validate.ModelState);
+            //}
 
             // Request(DTO) to Domain Model
             var region = new Models.Domain.Region()
@@ -140,12 +141,13 @@ namespace NZWalksAPI.Controllers
         [Route("UpdateRegionAsync/{id:guid}")]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute] Guid id, [FromBody] UpdateRegionRequest updateRegionRequest)
         {
-            var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
-            // Validate The Request
-            if (!validate.ValidateUpdateRegionAsync(updateRegionRequest))
-            {
-                return BadRequest(validate.ModelState);
-            }
+            // Option Validation 1 or Using Fluent Validator
+            //var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
+            //// Validate The Request
+            //if (!validate.ValidateUpdateRegionAsync(updateRegionRequest))
+            //{
+            //    return BadRequest(validate.ModelState);
+            //}
 
             // Convert Model to Domain Model
             var region = new Models.Domain.Region()

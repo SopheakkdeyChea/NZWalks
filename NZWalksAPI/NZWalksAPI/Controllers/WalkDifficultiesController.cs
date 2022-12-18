@@ -60,12 +60,13 @@ namespace NZWalksAPI.Controllers
         [Route("AddWalkDifficultyAsync")]
         public async Task<IActionResult> AddWalkDifficultyAsync(AddWalkDifficultyRequest addWalkDifficultyRequest)
         {
-            var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
-            // Validate The Request
-            if (!validate.ValidateAddWalkDifficultyAsync(addWalkDifficultyRequest))
-            {
-                return BadRequest(validate.ModelState);
-            }
+            // Use fluent validator instead
+            //var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
+            //// Validate The Request
+            //if (!validate.ValidateAddWalkDifficultyAsync(addWalkDifficultyRequest))
+            //{
+            //    return BadRequest(validate.ModelState);
+            //}
 
             var walkDifficulty = new Models.Domain.WalkDifficulty()
             {
@@ -83,12 +84,13 @@ namespace NZWalksAPI.Controllers
         [Route("UpdateWalkDifficultyAsync/{id:guid}")]
         public async Task<IActionResult> UpdateWalkDifficultyAsync(Guid id, UpdateWalkDifficultyRequest updateWalkDifficultyRequest)
         {
-            var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
-            // Validate The Request
-            if (!validate.ValidateUpdateWalkDifficultyAsync(updateWalkDifficultyRequest))
-            {
-                return BadRequest(validate.ModelState);
-            }
+            // Use fluent validator instead
+            //var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
+            //// Validate The Request
+            //if (!validate.ValidateUpdateWalkDifficultyAsync(updateWalkDifficultyRequest))
+            //{
+            //    return BadRequest(validate.ModelState);
+            //}
 
             var walkDifficulty = new Models.Domain.WalkDifficulty()
             {
