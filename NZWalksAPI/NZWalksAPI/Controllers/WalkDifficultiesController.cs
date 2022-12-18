@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using NZWalksAPI.Classes;
 using NZWalksAPI.Models.DTO.WalkDifficulties;
+using NZWalksAPI.Models.DTO.Walks;
 using NZWalksAPI.Repositories;
 
 namespace NZWalksAPI.Controllers
@@ -10,13 +12,15 @@ namespace NZWalksAPI.Controllers
     public class WalkDifficultiesController : ControllerBase
     {
         private readonly IWalkDifficultyRepository _walkDifficultyRepository;
+        private readonly IRegionRepository _regionRepository;
         private readonly IMapper _mapper;
 
         public WalkDifficultiesController(IWalkDifficultyRepository walkDifficultyRepository, 
-            IMapper mapper) 
+            IMapper mapper, IRegionRepository regionRepository) 
         { 
             _walkDifficultyRepository = walkDifficultyRepository;
             _mapper = mapper;
+            _regionRepository = regionRepository;
         }
 
         [HttpGet]
@@ -54,11 +58,18 @@ namespace NZWalksAPI.Controllers
 
         [HttpPost]
         [Route("AddWalkDifficultyAsync")]
-        public async Task<IActionResult> AddWalkDifficultyAsync(AddWalkDifficultyReuest addWalkDifficultyReuest)
+        public async Task<IActionResult> AddWalkDifficultyAsync(AddWalkDifficultyRequest addWalkDifficultyRequest)
         {
+            var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
+            // Validate The Request
+            if (!validate.ValidateAddWalkDifficultyAsync(addWalkDifficultyRequest))
+            {
+                return BadRequest(validate.ModelState);
+            }
+
             var walkDifficulty = new Models.Domain.WalkDifficulty()
             {
-                Code = addWalkDifficultyReuest.Code
+                Code = addWalkDifficultyRequest.Code
             };
 
             walkDifficulty = await _walkDifficultyRepository.AddAsync(walkDifficulty);
@@ -70,11 +81,18 @@ namespace NZWalksAPI.Controllers
 
         [HttpPut]
         [Route("UpdateWalkDifficultyAsync/{id:guid}")]
-        public async Task<IActionResult> UpdateWalkDifficultyAsync(Guid id, UpdateWalkDifficultyReuest updateWalkDifficultyReuest)
+        public async Task<IActionResult> UpdateWalkDifficultyAsync(Guid id, UpdateWalkDifficultyRequest updateWalkDifficultyRequest)
         {
+            var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
+            // Validate The Request
+            if (!validate.ValidateUpdateWalkDifficultyAsync(updateWalkDifficultyRequest))
+            {
+                return BadRequest(validate.ModelState);
+            }
+
             var walkDifficulty = new Models.Domain.WalkDifficulty()
             {
-                Code = updateWalkDifficultyReuest.Code,
+                Code = updateWalkDifficultyRequest.Code,
             };
 
             walkDifficulty = await _walkDifficultyRepository.UpdateAsync(id, walkDifficulty);

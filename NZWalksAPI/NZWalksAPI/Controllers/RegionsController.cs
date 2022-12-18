@@ -1,22 +1,28 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using NZWalksAPI.Classes;
 using NZWalksAPI.Models.DTO.Regions;
 using NZWalksAPI.Repositories;
 
 namespace NZWalksAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class RegionsController : ControllerBase
     {
         private readonly IRegionRepository _regionRepository;
+        private readonly IWalkDifficultyRepository _walkDifficultyRepository;
         private readonly IMapper _mapper;
-        public RegionsController(IRegionRepository regionRepository, IMapper mapper)
+
+        public RegionsController(IRegionRepository regionRepository, IMapper mapper, IWalkDifficultyRepository walkDifficultyRepository)
         {
-            _regionRepository= regionRepository;
-            _mapper= mapper;
+            _regionRepository = regionRepository;
+            _mapper = mapper;
+            _walkDifficultyRepository = walkDifficultyRepository;
         }
+
         [HttpGet]
+        [Route("GetAllRegionsAsync")]
         public async Task<IActionResult> GetAllRegionsAsync()
         {
             var regions = await _regionRepository.GetAllAsync();
@@ -46,7 +52,7 @@ namespace NZWalksAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{id:guid}")]
+        [Route("GetRegionAsync/{id:guid}")]
         [ActionName("GetRegionAsync")]
         public async Task<IActionResult> GetRegionAsync(Guid id) 
         {
@@ -62,9 +68,16 @@ namespace NZWalksAPI.Controllers
         }
 
         [HttpPost]
-        [Route("AddRegion")]
+        [Route("AddRegionAsync")]
         public async Task<IActionResult> AddRegionAsync(AddRegionRequest addRegionRequest)
         {
+            var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
+            // Validate The Request
+            if (!validate.ValidateAddRegionAsync(addRegionRequest))
+            {
+                return BadRequest(validate.ModelState);
+            }
+
             // Request(DTO) to Domain Model
             var region = new Models.Domain.Region()
             {
@@ -95,7 +108,7 @@ namespace NZWalksAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("{id:guid}")]
+        [Route("DeleteRegionAsync/{id:guid}")]
         public async Task<IActionResult> DeleteRegionAsync(Guid id)
         {
             // Get region from DB
@@ -124,9 +137,16 @@ namespace NZWalksAPI.Controllers
         }
 
         [HttpPut]
-        [Route("{id:guid}")]
+        [Route("UpdateRegionAsync/{id:guid}")]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute] Guid id, [FromBody] UpdateRegionRequest updateRegionRequest)
         {
+            var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
+            // Validate The Request
+            if (!validate.ValidateUpdateRegionAsync(updateRegionRequest))
+            {
+                return BadRequest(validate.ModelState);
+            }
+
             // Convert Model to Domain Model
             var region = new Models.Domain.Region()
             {

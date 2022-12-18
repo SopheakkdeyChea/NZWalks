@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using NZWalksAPI.Classes;
+using NZWalksAPI.Models.DTO.Regions;
 using NZWalksAPI.Models.DTO.Walks;
 using NZWalksAPI.Repositories;
 
@@ -10,11 +12,16 @@ namespace NZWalksAPI.Controllers
     public class WalksController : ControllerBase
     {
         private readonly IWalkRepository _walkRepository;
+        private readonly IRegionRepository _regionRepository;
+        private readonly IWalkDifficultyRepository _walkDifficultyRepository;
         private readonly IMapper _mapper;
-        public WalksController(IWalkRepository walkRepository, IMapper mapper) 
+        public WalksController(IWalkRepository walkRepository, IMapper mapper, 
+            IWalkDifficultyRepository walkDifficultyRepository, IRegionRepository regionRepository) 
         {
             _walkRepository = walkRepository;
             _mapper = mapper;
+            _regionRepository = regionRepository;
+            _walkDifficultyRepository= walkDifficultyRepository;
         }
         [HttpGet]
         [Route("GetAllWalksAsync")]
@@ -47,6 +54,14 @@ namespace NZWalksAPI.Controllers
         [Route("AddWalkAsync")]
         public async Task<IActionResult> AddWalkAsync([FromBody] AddWalkRequest addWalkRequest)
         {
+            // Validate the request
+            var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
+            // Validate The Request
+            if (!await validate.ValidateAddWalkAsync(addWalkRequest))
+            {
+                return BadRequest(validate.ModelState);
+            }
+
             // Request(DTO) to Domain Model
             var walk = new Models.Domain.Walk()
             {
@@ -75,6 +90,14 @@ namespace NZWalksAPI.Controllers
         public async Task<IActionResult> UpdateWalkAsync([FromRoute] Guid id, 
             [FromBody] UpdateWalkRequest updateWalkRequest)
         {
+            // Validate the request
+            var validate = new ValidationObjects(_regionRepository, _walkDifficultyRepository);
+            // Validate The Request
+            if (!await validate.ValidateUpdateWalkAsync(updateWalkRequest))
+            {
+                return BadRequest(validate.ModelState);
+            }
+
             // Convert DTO to Domain object
             var walk = new Models.Domain.Walk()
             {
