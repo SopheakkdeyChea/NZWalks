@@ -213,19 +213,19 @@ namespace NZWalksAPI.Classes
         #endregion
 
         #region WalkDifficulty
-        public bool ValidateAddWalkDifficultyAsync(AddWalkDifficultyRequest addWalkDifficultyReuest)
+        public bool ValidateAddWalkDifficultyAsync(AddWalkDifficultyRequest addWalkDifficultyRequest)
         {
-            if (addWalkDifficultyReuest == null)
+            if (addWalkDifficultyRequest == null)
             {
-                ModelState.AddModelError(nameof(addWalkDifficultyReuest),
-                    $"{nameof(addWalkDifficultyReuest)} is required.");
+                ModelState.AddModelError(nameof(addWalkDifficultyRequest),
+                    $"{nameof(addWalkDifficultyRequest)} is required.");
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(addWalkDifficultyReuest.Code))
+            if (string.IsNullOrWhiteSpace(addWalkDifficultyRequest.Code))
             {
-                ModelState.AddModelError(nameof(addWalkDifficultyReuest.Code),
-                    $"{addWalkDifficultyReuest.Code} is required.");
+                ModelState.AddModelError(nameof(addWalkDifficultyRequest.Code),
+                    $"{nameof(addWalkDifficultyRequest.Code)} is required.");
             }
 
             if(ModelState.ErrorCount > 0)
@@ -248,7 +248,7 @@ namespace NZWalksAPI.Classes
             if (string.IsNullOrWhiteSpace(updateWalkDifficultyReuest.Code))
             {
                 ModelState.AddModelError(nameof(updateWalkDifficultyReuest.Code),
-                    $"{updateWalkDifficultyReuest.Code} is required.");
+                    $"{nameof(updateWalkDifficultyReuest.Code)} is required.");
             }
 
             if (ModelState.ErrorCount > 0)
