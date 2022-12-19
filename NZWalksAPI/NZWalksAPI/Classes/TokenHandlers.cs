@@ -21,7 +21,7 @@ namespace NZWalksAPI.Classes
             var claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.GivenName, user.Firstname));
             claims.Add(new Claim(ClaimTypes.Surname, user.Lastname));
-            claims.Add(new Claim(ClaimTypes.Email, user.EmailAdress));
+            claims.Add(new Claim(ClaimTypes.Email, user.EmailAddress));
 
             //Loop into roles of users
             user.Roles.ForEach((role) =>
