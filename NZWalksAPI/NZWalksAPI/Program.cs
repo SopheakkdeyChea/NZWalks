@@ -1,15 +1,19 @@
 using FluentValidation.AspNetCore;
+using LoggerService.Classes;
+using LoggerService.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NLog;
 using NZWalksAPI.Classes;
 using NZWalksAPI.Data;
 using NZWalksAPI.Repositories;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// Add Log
+LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -53,6 +57,8 @@ builder.Services.AddScoped<IWalkRepository, WalkRepository>();
 builder.Services.AddScoped<IWalkDifficultyRepository, WalkDifficultyRepository>();
 builder.Services.AddScoped<ITokenHandler, TokenHandlers>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+// Add Log
+builder.Services.AddScoped<ILoggerRepository, LoggerRepository>();
 
 // Static User
 //builder.Services.AddSingleton<IUserRepository, StaticUserRepository>();

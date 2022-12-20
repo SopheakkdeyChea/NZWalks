@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LoggerService.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NZWalksAPI.Classes;
@@ -15,12 +16,15 @@ namespace NZWalksAPI.Controllers
         private readonly IRegionRepository _regionRepository;
         private readonly IWalkDifficultyRepository _walkDifficultyRepository;
         private readonly IMapper _mapper;
+        private readonly ILoggerRepository _logger;
 
-        public RegionsController(IRegionRepository regionRepository, IMapper mapper, IWalkDifficultyRepository walkDifficultyRepository)
+        public RegionsController(IRegionRepository regionRepository, IMapper mapper, 
+            IWalkDifficultyRepository walkDifficultyRepository, ILoggerRepository loggerRepository)
         {
             _regionRepository = regionRepository;
             _mapper = mapper;
             _walkDifficultyRepository = walkDifficultyRepository;
+            _logger = loggerRepository;
         }
 
         [HttpGet]
@@ -50,6 +54,7 @@ namespace NZWalksAPI.Controllers
             // (Option 2 with Automapper)
             var regionsDTO = _mapper.Map<List<Region>>(regions);
 
+            _logger.LogInfo("test");
             return Ok(regionsDTO); 
         }
 
